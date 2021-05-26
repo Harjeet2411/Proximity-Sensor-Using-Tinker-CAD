@@ -1,0 +1,48 @@
+const int pingPin = 9;
+const int buzzer = 10;
+
+void setup() {
+  Serial.begin(9600);
+  pinMode(buzzer, OUTPUT);
+  
+}
+
+void loop() {
+  long duration, cm;
+
+  
+  pinMode(pingPin, OUTPUT);
+  digitalWrite(pingPin, LOW);
+  delayMicroseconds(2);
+  digitalWrite(pingPin, HIGH);
+  delayMicroseconds(5);
+  digitalWrite(pingPin, LOW);
+
+
+  pinMode(pingPin, INPUT);
+  duration = pulseIn(pingPin, HIGH);
+
+
+  cm = microsecondsToCentimeters(duration);
+
+ 
+  Serial.print("Distance: ");
+  Serial.print(cm);
+  Serial.print("cm");
+  Serial.println();
+
+
+  if(cm < 150) {
+    digitalWrite(buzzer, HIGH);
+  }
+  else {
+    digitalWrite(buzzer, LOW);
+  }
+  
+  delay(100);
+}
+
+long microsecondsToCentimeters(long microseconds) {
+
+  return microseconds / 29 / 2;
+}
